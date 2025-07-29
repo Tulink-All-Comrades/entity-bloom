@@ -16,7 +16,7 @@ export default function OrganizationDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const organization = useAppStore((state) => state.getOrganizationById(id!));
+  const organization = useAppStore((state) => state.organizations.find(org => org.id === id));
 
   if (!organization) {
     return (

@@ -14,7 +14,7 @@ interface GroupsTabProps {
 }
 
 export function GroupsTab({ organizationId }: GroupsTabProps) {
-  const groups = useAppStore((state) => state.getGroupsByOrganization(organizationId));
+  const groups = useAppStore((state) => state.groups.filter(group => group.organizationId === organizationId));
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-KE', {

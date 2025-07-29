@@ -26,8 +26,8 @@ interface OfficialsTabProps {
 
 export function OfficialsTab({ organizationId }: OfficialsTabProps) {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const officials = useAppStore((state) => state.getOfficialsByOrganization(organizationId));
-  const getRoleById = useAppStore((state) => state.getRoleById);
+  const officials = useAppStore((state) => state.officials.filter(official => official.organizationId === organizationId));
+  const roles = useAppStore((state) => state.roles);
 
   return (
     <Card>
@@ -65,7 +65,7 @@ export function OfficialsTab({ organizationId }: OfficialsTabProps) {
           </TableHeader>
           <TableBody>
             {officials.map((official) => {
-              const role = getRoleById(official.roleId);
+              const role = roles.find(r => r.id === official.roleId);
               return (
                 <TableRow key={official.id}>
                   <TableCell className="font-medium">{official.firstName}</TableCell>

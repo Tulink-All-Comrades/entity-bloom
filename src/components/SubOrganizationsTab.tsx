@@ -29,7 +29,7 @@ interface SubOrganizationsTabProps {
 export function SubOrganizationsTab({ parentId, parentName }: SubOrganizationsTabProps) {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const subOrganizations = useAppStore((state) => state.getSubOrganizations(parentId));
+  const subOrganizations = useAppStore((state) => state.organizations.filter(org => org.parentId === parentId));
 
   const handleViewSubOrganization = (id: string) => {
     navigate(`/organizations/${id}`);

@@ -11,11 +11,6 @@ interface AppState {
   addOfficial: (official: Omit<Official, 'id'>) => void;
   addRole: (role: Omit<Role, 'id'>) => void;
   updateRole: (id: string, role: Partial<Role>) => void;
-  getOrganizationById: (id: string) => Organization | undefined;
-  getOfficialsByOrganization: (orgId: string) => Official[];
-  getSubOrganizations: (parentId: string) => Organization[];
-  getGroupsByOrganization: (orgId: string) => Group[];
-  getRoleById: (id: string) => Role | undefined;
 }
 
 // Dummy data
@@ -79,14 +74,4 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateRole: (id, role) => set((state) => ({
     roles: state.roles.map(r => r.id === id ? { ...r, ...role } : r)
   })),
-
-  getOrganizationById: (id) => get().organizations.find(org => org.id === id),
-
-  getOfficialsByOrganization: (orgId) => get().officials.filter(official => official.organizationId === orgId),
-
-  getSubOrganizations: (parentId) => get().organizations.filter(org => org.parentId === parentId),
-
-  getGroupsByOrganization: (orgId) => get().groups.filter(group => group.organizationId === orgId),
-
-  getRoleById: (id) => get().roles.find(role => role.id === id),
 }));
