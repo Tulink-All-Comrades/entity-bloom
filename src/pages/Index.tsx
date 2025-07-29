@@ -1,20 +1,15 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Organization Management System</h1>
-        <p className="text-xl text-muted-foreground mb-8">
-          Manage organizations, officials, and sub-organizations
-        </p>
-        <Link to="/organizations">
-          <Button size="lg">View Organizations</Button>
-        </Link>
-      </div>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/organizations");
+  }, [navigate]);
+
+  return null;
 };
 
 export default Index;
