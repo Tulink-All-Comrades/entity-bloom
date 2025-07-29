@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, MoreHorizontal, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,11 @@ import { AddOrganizationForm } from "@/components/AddOrganizationForm";
 export default function Organizations() {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const organizations = useAppStore((state) => state.organizations.filter(org => !org.parentId));
+  const allOrganizations = useAppStore((state) => state.organizations);
+  const organizations = useMemo(() => 
+    allOrganizations.filter(org => !org.parentId), 
+    [allOrganizations]
+  );
 
   const handleViewOrganization = (id: string) => {
     navigate(`/organizations/${id}`);

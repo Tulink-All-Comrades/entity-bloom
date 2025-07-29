@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, MoreHorizontal, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,11 @@ interface SubOrganizationsTabProps {
 export function SubOrganizationsTab({ parentId, parentName }: SubOrganizationsTabProps) {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const subOrganizations = useAppStore((state) => state.organizations.filter(org => org.parentId === parentId));
+  const allOrganizations = useAppStore((state) => state.organizations);
+  const subOrganizations = useMemo(() => 
+    allOrganizations.filter(org => org.parentId === parentId),
+    [allOrganizations, parentId]
+  );
 
   const handleViewSubOrganization = (id: string) => {
     navigate(`/organizations/${id}`);

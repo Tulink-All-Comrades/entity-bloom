@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Edit, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,11 @@ export default function OrganizationDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const organization = useAppStore((state) => state.organizations.find(org => org.id === id));
+  const allOrganizations = useAppStore((state) => state.organizations);
+  const organization = useMemo(() => 
+    allOrganizations.find(org => org.id === id),
+    [allOrganizations, id]
+  );
 
   if (!organization) {
     return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Plus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,7 +26,11 @@ interface OfficialsTabProps {
 
 export function OfficialsTab({ organizationId }: OfficialsTabProps) {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const officials = useAppStore((state) => state.officials.filter(official => official.organizationId === organizationId));
+  const allOfficials = useAppStore((state) => state.officials);
+  const officials = useMemo(() => 
+    allOfficials.filter(official => official.organizationId === organizationId),
+    [allOfficials, organizationId]
+  );
   const roles = useAppStore((state) => state.roles);
 
   return (

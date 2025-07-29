@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -14,7 +15,11 @@ interface GroupsTabProps {
 }
 
 export function GroupsTab({ organizationId }: GroupsTabProps) {
-  const groups = useAppStore((state) => state.groups.filter(group => group.organizationId === organizationId));
+  const allGroups = useAppStore((state) => state.groups);
+  const groups = useMemo(() => 
+    allGroups.filter(group => group.organizationId === organizationId),
+    [allGroups, organizationId]
+  );
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-KE', {
