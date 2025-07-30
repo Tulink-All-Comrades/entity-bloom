@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
+  { title: "Dashboard", url: "/", icon: BarChart3 },
   { title: "Organizations", url: "/organizations", icon: Building2 },
 ];
 
@@ -34,10 +34,14 @@ export function AppSidebar() {
                     <NavLink 
                       to={item.url} 
                       className={({ isActive }) =>
-                        isActive ? "bg-accent text-accent-foreground" : ""
+                        `flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
+                          isActive 
+                            ? "bg-primary text-primary-foreground font-medium" 
+                            : "hover:bg-accent hover:text-accent-foreground"
+                        }`
                       }
                     >
-                      <item.icon />
+                      <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
