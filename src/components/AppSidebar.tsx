@@ -36,8 +36,8 @@ export function AppSidebar() {
                       className={({ isActive }) =>
                         `flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
                           isActive 
-                            ? "bg-black text-white font-medium" 
-                            : "text-black hover:bg-accent"
+                            ? "bg-primary text-primary-foreground font-medium" 
+                            : "text-foreground hover:bg-accent hover:text-accent-foreground"
                         }`
                       }
                     >
