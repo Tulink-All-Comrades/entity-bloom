@@ -46,7 +46,21 @@ export default function OrganizationDetail() {
       {/* Top Part - Organization Details */}
       <Card className="mb-6">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Organization Details</CardTitle>
+          <div className="flex items-center gap-4">
+            {organization.logoUrl && (
+              <div className="w-16 h-16 rounded-lg overflow-hidden border">
+                <img 
+                  src={organization.logoUrl} 
+                  alt={`${organization.name} logo`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div>
+              <CardTitle className="text-2xl">{organization.name}</CardTitle>
+              <p className="text-muted-foreground">{organization.nature}</p>
+            </div>
+          </div>
           <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
             <DialogTrigger asChild>
               <Button variant="outline">
@@ -67,14 +81,6 @@ export default function OrganizationDetail() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Name</p>
-              <p className="font-medium">{organization.name}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Nature</p>
-              <p className="font-medium">{organization.nature}</p>
-            </div>
             <div>
               <p className="text-sm text-muted-foreground">Email</p>
               <p className="font-medium">{organization.email}</p>

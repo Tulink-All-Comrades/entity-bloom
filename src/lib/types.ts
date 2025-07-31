@@ -5,6 +5,7 @@ export interface Organization {
   email: string;
   phone: string;
   parentId?: string;
+  logoUrl?: string;
 }
 
 export interface Official {

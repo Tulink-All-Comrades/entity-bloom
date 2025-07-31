@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Upload } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -37,6 +39,7 @@ interface AddOrganizationFormProps {
 export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrganizationFormProps) {
   const { toast } = useToast();
   const addOrganization = useAppStore((state) => state.addOrganization);
+  const [logo, setLogo] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,6 +51,13 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
     },
   });
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setLogo(file);
+    }
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     addOrganization({
       name: values.name,
@@ -55,6 +65,7 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
       email: values.email,
       phone: values.phone,
       parentId,
+      logoUrl: logo ? URL.createObjectURL(logo) : undefined,
     });
     
     toast({
@@ -64,6 +75,7 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
     
     onSuccess();
     form.reset();
+    setLogo(null);
   }
 
   return (
@@ -142,6 +154,28 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
             </FormItem>
           )}
         />
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Organization Logo</label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="logo"
+              type="file"
+              accept="image/*"
+              onChange={handleLogoChange}
+              className="hidden"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => document.getElementById('logo')?.click()}
+              className="flex items-center gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              {logo ? logo.name : "Upload Logo"}
+            </Button>
+          </div>
+        </div>
 
         <div className="flex justify-end space-x-2">
           <Button type="button" variant="outline" onClick={onSuccess}>
