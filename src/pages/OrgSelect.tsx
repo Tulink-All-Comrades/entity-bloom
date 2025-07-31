@@ -1,13 +1,11 @@
+import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Building2 } from "lucide-react";
 
 // Dummy organizations data
 const organizations = [
   { id: "1", name: "Cooperative Bank", nature: "Financial Institution" },
-  { id: "2", name: "Kenya Women Finance Trust", nature: "SACCO" }
+  { id: "2", name: "Kenya Women Finance Trust", nature: "MicroFinance Bank" }
 ];
 
 export default function OrgSelect() {
@@ -28,34 +26,48 @@ export default function OrgSelect() {
     navigate("/org/dashboard");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    navigate("/login");
+  };
+
   if (!currentUser) return null;
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Select Organization</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {organizations.map((org) => (
-            <Card key={org.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Building2 className="h-5 w-5" />
-                  {org.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">{org.nature}</p>
-                <Button 
-                  onClick={() => handleSelectOrganization(org.id)}
-                  className="w-full"
-                >
-                  Access Dashboard
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+  <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+  <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    {/* Logout button with icon */}
+    <div className="flex justify-end mb-4">
+      <button
+        onClick={handleLogout}
+        className="flex items-center text-sm text-gray-600 font-medium"
+      >
+       <LogOut/> {" "} {" "} {" "}
+        LogOut
+      </button>
     </div>
+
+    {/* Title */}
+    <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+      Organizations
+    </h1>
+
+    {/* Organization list */}
+    <ul className="space-y-2">
+      {organizations.map((org) => (
+        <li
+          key={org.id}
+          onClick={() => handleSelectOrganization(org.id)}
+          className="w-full cursor-pointer p-4 rounded border border-gray-300 hover:bg-gray-100 transition text-gray-800"
+        >
+          <p className="font-semibold text-base">{org.name}</p>
+          <p className="text-sm text-gray-600">{org.nature}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+
   );
 }

@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", url: "/", icon: BarChart3 },
-  { title: "Organizations", url: "/organizations", icon: Building2 },
+  { title: "Dashboard", url: "/admin/dashboard", icon: BarChart3 },
+  { title: "Organizations", url: "/admin/organizations", icon: Building2 },
 ];
 
 export function AppSidebar() {

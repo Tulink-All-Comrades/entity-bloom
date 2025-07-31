@@ -1,4 +1,4 @@
-import { BarChart3, Building2, Users } from "lucide-react";
+import { BarChart3, Building2, Users,Home } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -14,7 +14,7 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: BarChart3 },
   { title: "Sub Organizations", url: "/org/sub-organizations", icon: Building2 },
-  { title: "Groups", url: "/org/groups", icon: Users },
+  { title: "Groups", url: "/org/groups", icon: Users }
 ];
 
 export function OrgSidebar() {

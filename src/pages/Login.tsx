@@ -38,7 +38,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login to ChamaSoft</CardTitle>
+          <CardTitle>Octopus Demo</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>

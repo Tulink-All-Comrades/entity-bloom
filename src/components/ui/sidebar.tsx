@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
+import { PanelLeft,Home,LogOut } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { NavLink } from "react-router-dom"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -249,6 +250,23 @@ const Sidebar = React.forwardRef<
             className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
           >
             {children}
+            <div className="mt-auto px-4 py-2 border-t border-sidebar-border">
+              <NavLink 
+                to="/org/select" 
+                className='flex items-center gap-2 px-3 py-2 rounded-md transition-colors'
+              >
+                <Home className="h-4 w-4" />
+                <span>Check In</span>
+              </NavLink>
+
+               <NavLink 
+                to="/" 
+                className='flex items-center gap-2 px-3 py-2 rounded-md transition-colors'
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Log out</span>
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>
