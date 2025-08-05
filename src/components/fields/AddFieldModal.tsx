@@ -11,10 +11,9 @@ import type { OnboardingField } from "@/lib/types";
 interface AddFieldModalProps {
   isOpen: boolean;
   onClose: () => void;
-  category: 'primary' | 'members' | 'contributions' | 'loans' | 'accounts';
 }
 
-export function AddFieldModal({ isOpen, onClose, category }: AddFieldModalProps) {
+export function AddFieldModal({ isOpen, onClose }: AddFieldModalProps) {
   const addOnboardingField = useAppStore((state) => state.addOnboardingField);
   
   const [formData, setFormData] = useState({
@@ -23,6 +22,7 @@ export function AddFieldModal({ isOpen, onClose, category }: AddFieldModalProps)
     fieldType: 'input' as OnboardingField['fieldType'],
     dataType: 'text' as 'text' | 'amount',
     isRequired: false,
+    category: 'primary' as OnboardingField['category'],
   });
 
   const [options, setOptions] = useState<Array<{ label: string; value: string }>>([]);
@@ -40,7 +40,7 @@ export function AddFieldModal({ isOpen, onClose, category }: AddFieldModalProps)
       dataType: formData.fieldType === 'input' ? formData.dataType : undefined,
       isRequired: formData.isRequired,
       isSystemGenerated: false,
-      category,
+      category: formData.category,
       options: (formData.fieldType === 'select' || formData.fieldType === 'checkbox') ? 
         options.map((opt, index) => ({ id: (index + 1).toString(), ...opt })) : undefined,
     };
@@ -54,6 +54,7 @@ export function AddFieldModal({ isOpen, onClose, category }: AddFieldModalProps)
       fieldType: 'input',
       dataType: 'text',
       isRequired: false,
+      category: 'primary',
     });
     setOptions([]);
     setNewOption({ label: '', value: '' });
@@ -100,6 +101,25 @@ export function AddFieldModal({ isOpen, onClose, category }: AddFieldModalProps)
               placeholder="Enter field name (camelCase)"
               required
             />
+          </div>
+
+          <div>
+            <Label>Category</Label>
+            <Select 
+              value={formData.category} 
+              onValueChange={(value) => setFormData(prev => ({ ...prev, category: value as any }))}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="primary">Primary Info</SelectItem>
+                <SelectItem value="members">Members</SelectItem>
+                <SelectItem value="contributions">Contributions</SelectItem>
+                <SelectItem value="loans">Loans</SelectItem>
+                <SelectItem value="accounts">Accounts</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div>

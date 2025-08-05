@@ -65,7 +65,6 @@ export default function OnboardingFields() {
       <AddFieldModal 
         isOpen={showAddField} 
         onClose={() => setShowAddField(false)}
-        category={activeCategory}
       />
     </div>
   );
