@@ -1,20 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Plus } from "lucide-react";
-
-// Dummy groups data
-const groups = [
-  { id: "1", name: "Savings Circle A", memberCount: 15, totalLoaned: 450000, totalDeposits: 680000 },
-  { id: "2", name: "Investment Group B", memberCount: 22, totalLoaned: 780000, totalDeposits: 1200000 },
-  { id: "3", name: "Women Empowerment", memberCount: 18, totalLoaned: 320000, totalDeposits: 450000 },
-  { id: "4", name: "Youth Development", memberCount: 12, totalLoaned: 180000, totalDeposits: 250000 },
-];
+import { CreateGroupModal } from "@/components/group/CreateGroupModal";
+import { useAppStore } from "@/lib/store";
 
 export default function OrgGroups() {
   const navigate = useNavigate();
+  const groups = useAppStore((state) => state.groups);
+  const [showCreateGroup, setShowCreateGroup] = useState(false);
+  
+  // For demo purposes, using organization ID '1'
+  const organizationId = '1';
 
   const handleViewGroup = (id: string) => {
     navigate(`/org/groups/${id}`);
@@ -36,7 +36,7 @@ export default function OrgGroups() {
             Manage groups within your organization
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setShowCreateGroup(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Add Group
         </Button>
@@ -58,7 +58,7 @@ export default function OrgGroups() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {groups.map((group) => (
+              {groups.filter(group => group.organizationId === organizationId).map((group) => (
                 <TableRow key={group.id}>
                   <TableCell className="font-medium">{group.name}</TableCell>
                   <TableCell>{group.memberCount}</TableCell>
@@ -84,6 +84,12 @@ export default function OrgGroups() {
           </Table>
         </CardContent>
       </Card>
+
+      <CreateGroupModal
+        isOpen={showCreateGroup}
+        onClose={() => setShowCreateGroup(false)}
+        organizationId={organizationId}
+      />
     </div>
   );
 }

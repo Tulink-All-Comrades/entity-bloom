@@ -15,6 +15,7 @@ import OrgDashboard from "./pages/OrgDashboard";
 import OrgSubOrganizations from "./pages/OrgSubOrganizations";
 import OrgGroups from "./pages/OrgGroups";
 import GroupDetail from "./pages/GroupDetail";
+import OnboardingFields from "./pages/OnboardingFields";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="sub-organizations/:id" element={<OrganizationDetail />} />
                 <Route path="groups" element={<OrgGroups />} />
                 <Route path="groups/:id" element={<GroupDetail />} />
+                <Route path="onboarding-fields" element={<OnboardingFields />} />
               </Routes>
             </OrgLayout>
           } />

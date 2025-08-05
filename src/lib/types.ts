@@ -39,3 +39,21 @@ export interface Group {
   totalWithdrawals: number;
   organizationId: string;
 }
+
+export interface FieldOption {
+  id: string;
+  label: string;
+  value: string;
+}
+
+export interface OnboardingField {
+  id: string;
+  label: string;
+  fieldName: string;
+  fieldType: 'input' | 'select' | 'textarea' | 'checkbox';
+  dataType?: 'text' | 'amount';
+  isRequired: boolean;
+  isSystemGenerated: boolean;
+  category: 'primary' | 'members' | 'contributions' | 'loans' | 'accounts';
+  options?: FieldOption[];
+}

@@ -1,16 +1,21 @@
 import { create } from 'zustand';
-import { Organization, Official, Role, Group, Permission } from './types';
+import { Organization, Official, Role, Group, Permission, OnboardingField } from './types';
 
 interface AppState {
   organizations: Organization[];
   officials: Official[];
   roles: Role[];
   groups: Group[];
+  onboardingFields: OnboardingField[];
   addOrganization: (org: Omit<Organization, 'id'>) => void;
   updateOrganization: (id: string, org: Partial<Organization>) => void;
   addOfficial: (official: Omit<Official, 'id'>) => void;
   addRole: (role: Omit<Role, 'id'>) => void;
   updateRole: (id: string, role: Partial<Role>) => void;
+  addGroup: (group: Omit<Group, 'id'>) => void;
+  addOnboardingField: (field: Omit<OnboardingField, 'id'>) => void;
+  updateOnboardingField: (id: string, field: Partial<OnboardingField>) => void;
+  deleteOnboardingField: (id: string) => void;
 }
 
 // Dummy data
@@ -49,11 +54,77 @@ const initialGroups: Group[] = [
   { id: '6', name: 'Development Fund Gamma', memberCount: 35, totalLoaned: 800000, totalDeposits: 1000000, totalWithdrawals: 200000, organizationId: '2' },
 ];
 
+const initialOnboardingFields: OnboardingField[] = [
+  // Primary Info - System Fields
+  { id: '1', label: 'Group Name', fieldName: 'groupName', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'primary' },
+  { id: '2', label: 'Group Nature', fieldName: 'groupNature', fieldType: 'select', isRequired: true, isSystemGenerated: true, category: 'primary', options: [
+    { id: '1', label: 'Savings', value: 'savings' },
+    { id: '2', label: 'SLA', value: 'sla' },
+    { id: '3', label: 'Self Help Group', value: 'self_help' }
+  ]},
+  { id: '3', label: 'Number of Members', fieldName: 'memberCount', fieldType: 'input', dataType: 'amount', isRequired: true, isSystemGenerated: true, category: 'primary' },
+  { id: '4', label: 'Is Registered', fieldName: 'isRegistered', fieldType: 'checkbox', isRequired: true, isSystemGenerated: true, category: 'primary', options: [
+    { id: '1', label: 'Yes', value: 'true' },
+    { id: '2', label: 'No', value: 'false' }
+  ]},
+  { id: '5', label: 'Registration Number', fieldName: 'registrationNumber', fieldType: 'input', dataType: 'text', isRequired: false, isSystemGenerated: true, category: 'primary' },
+  
+  // Members - System Fields
+  { id: '6', label: 'Member Name', fieldName: 'memberName', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'members' },
+  { id: '7', label: 'Phone Number', fieldName: 'phoneNumber', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'members' },
+  { id: '8', label: 'Email Address', fieldName: 'emailAddress', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'members' },
+  { id: '9', label: 'Role', fieldName: 'memberRole', fieldType: 'select', isRequired: true, isSystemGenerated: true, category: 'members', options: [
+    { id: '1', label: 'Chairman', value: 'chairman' },
+    { id: '2', label: 'Secretary', value: 'secretary' },
+    { id: '3', label: 'Treasurer', value: 'treasurer' },
+    { id: '4', label: 'Member', value: 'member' }
+  ]},
+  { id: '10', label: 'Membership Number', fieldName: 'membershipNumber', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'members' },
+  { id: '11', label: 'National ID Number', fieldName: 'nationalId', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'members' },
+  
+  // Contributions - System Fields
+  { id: '12', label: 'Contribution Name', fieldName: 'contributionName', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'contributions' },
+  { id: '13', label: 'Amount', fieldName: 'contributionAmount', fieldType: 'input', dataType: 'amount', isRequired: true, isSystemGenerated: true, category: 'contributions' },
+  { id: '14', label: 'Type', fieldName: 'contributionType', fieldType: 'select', isRequired: true, isSystemGenerated: true, category: 'contributions', options: [
+    { id: '1', label: 'Savings', value: 'savings' },
+    { id: '2', label: 'Membership Fee', value: 'membership_fee' },
+    { id: '3', label: 'Emergency Fund', value: 'emergency_fund' }
+  ]},
+  { id: '15', label: 'Nature', fieldName: 'contributionNature', fieldType: 'select', isRequired: true, isSystemGenerated: true, category: 'contributions', options: [
+    { id: '1', label: 'Regular', value: 'regular' },
+    { id: '2', label: 'One-time', value: 'one_time' }
+  ]},
+  
+  // Loans - System Fields
+  { id: '16', label: 'Loan Name', fieldName: 'loanName', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'loans' },
+  { id: '17', label: 'Eligibility Criteria', fieldName: 'eligibilityCriteria', fieldType: 'textarea', isRequired: true, isSystemGenerated: true, category: 'loans' },
+  { id: '18', label: 'Interest Rate', fieldName: 'interestRate', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'loans' },
+  { id: '19', label: 'Guarantors Required', fieldName: 'guarantorsRequired', fieldType: 'checkbox', isRequired: true, isSystemGenerated: true, category: 'loans', options: [
+    { id: '1', label: 'Yes', value: 'true' },
+    { id: '2', label: 'No', value: 'false' }
+  ]},
+  { id: '20', label: 'Grace Period (Days)', fieldName: 'gracePeriod', fieldType: 'input', dataType: 'amount', isRequired: false, isSystemGenerated: true, category: 'loans' },
+  { id: '21', label: 'Repayment Period (Months)', fieldName: 'repaymentPeriod', fieldType: 'input', dataType: 'amount', isRequired: true, isSystemGenerated: true, category: 'loans' },
+  
+  // Accounts - System Fields
+  { id: '22', label: 'Account Name', fieldName: 'accountName', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'accounts' },
+  { id: '23', label: 'Account Type', fieldName: 'accountType', fieldType: 'select', isRequired: true, isSystemGenerated: true, category: 'accounts', options: [
+    { id: '1', label: 'Bank', value: 'bank' },
+    { id: '2', label: 'Sacco', value: 'sacco' },
+    { id: '3', label: 'Mobile Money', value: 'mobile_money' }
+  ]},
+  { id: '24', label: 'Institution', fieldName: 'institution', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'accounts' },
+  { id: '25', label: 'Account Number', fieldName: 'accountNumber', fieldType: 'input', dataType: 'text', isRequired: true, isSystemGenerated: true, category: 'accounts' },
+  { id: '26', label: 'Account Balance', fieldName: 'accountBalance', fieldType: 'input', dataType: 'amount', isRequired: true, isSystemGenerated: true, category: 'accounts' },
+  { id: '27', label: 'Signing Mandate', fieldName: 'signingMandate', fieldType: 'textarea', isRequired: false, isSystemGenerated: true, category: 'accounts' },
+];
+
 export const useAppStore = create<AppState>((set, get) => ({
   organizations: initialOrganizations,
   officials: initialOfficials,
   roles: initialRoles,
   groups: initialGroups,
+  onboardingFields: initialOnboardingFields,
 
   addOrganization: (org) => set((state) => ({
     organizations: [...state.organizations, { ...org, id: Date.now().toString() }]
@@ -73,5 +144,21 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   updateRole: (id, role) => set((state) => ({
     roles: state.roles.map(r => r.id === id ? { ...r, ...role } : r)
+  })),
+
+  addGroup: (group) => set((state) => ({
+    groups: [...state.groups, { ...group, id: Date.now().toString() }]
+  })),
+
+  addOnboardingField: (field) => set((state) => ({
+    onboardingFields: [...state.onboardingFields, { ...field, id: Date.now().toString() }]
+  })),
+
+  updateOnboardingField: (id, field) => set((state) => ({
+    onboardingFields: state.onboardingFields.map(f => f.id === id ? { ...f, ...field } : f)
+  })),
+
+  deleteOnboardingField: (id) => set((state) => ({
+    onboardingFields: state.onboardingFields.filter(f => f.id !== id)
   })),
 }));
