@@ -23,8 +23,8 @@ const menuItems = [
 export function OrgSidebar() {
   // Get current logged in user info - in real app this would come from auth context
   const currentUser = {
-    firstName: "John",
-    lastName: "Mwangi", 
+    firstName: "Demo",
+    lastName: "Account", 
     role: "Organization Official",
     avatar: null
   };

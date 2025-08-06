@@ -31,7 +31,7 @@ export default function Organizations() {
   );
 
   const handleViewOrganization = (id: string) => {
-    navigate(`/organizations/${id}`);
+    navigate(`/admin/organizations/${id}`);
   };
 
   return (
