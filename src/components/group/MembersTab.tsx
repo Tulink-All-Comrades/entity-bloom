@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { MemberDetailModal } from "./MemberDetailModal";
+import { AddDataModal } from "./AddDataModal";
 
 // Dummy members data
 const members = [
@@ -20,6 +21,7 @@ interface MembersTabProps {
 export function MembersTab({ groupId }: MembersTabProps) {
   const [selectedMember, setSelectedMember] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleViewMember = (member: any) => {
     setSelectedMember(member);
@@ -29,8 +31,12 @@ export function MembersTab({ groupId }: MembersTabProps) {
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Group Members</CardTitle>
+          <Button onClick={() => setShowAddModal(true)} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Member
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -75,6 +81,13 @@ export function MembersTab({ groupId }: MembersTabProps) {
         member={selectedMember}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      <AddDataModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        category="members"
+        title="Add Member"
       />
     </>
   );

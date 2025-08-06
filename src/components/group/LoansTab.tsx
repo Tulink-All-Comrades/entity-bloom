@@ -4,8 +4,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { LoanDetailModal } from "./LoanDetailModal";
+import { AddDataModal } from "./AddDataModal";
 
 // Dummy loan types data
 const loanTypes = [
@@ -45,6 +46,7 @@ interface LoansTabProps {
 export function LoansTab({ groupId }: LoansTabProps) {
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleViewLoan = (loan: any) => {
     setSelectedLoan(loan);
@@ -54,8 +56,12 @@ export function LoansTab({ groupId }: LoansTabProps) {
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Loan Types</CardTitle>
+          <Button onClick={() => setShowAddModal(true)} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Loan Type
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -104,6 +110,13 @@ export function LoansTab({ groupId }: LoansTabProps) {
         loan={selectedLoan}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      <AddDataModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        category="loans"
+        title="Add Loan Type"
       />
     </>
   );

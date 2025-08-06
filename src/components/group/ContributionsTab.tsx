@@ -4,8 +4,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { ContributionDetailModal } from "./ContributionDetailModal";
+import { AddDataModal } from "./AddDataModal";
 
 // Dummy contributions data
 const contributions = [
@@ -21,6 +22,7 @@ interface ContributionsTabProps {
 export function ContributionsTab({ groupId }: ContributionsTabProps) {
   const [selectedContribution, setSelectedContribution] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleViewContribution = (contribution: any) => {
     setSelectedContribution(contribution);
@@ -37,8 +39,12 @@ export function ContributionsTab({ groupId }: ContributionsTabProps) {
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Contribution Types</CardTitle>
+          <Button onClick={() => setShowAddModal(true)} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Contribution Type
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -87,6 +93,13 @@ export function ContributionsTab({ groupId }: ContributionsTabProps) {
         contribution={selectedContribution}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      <AddDataModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        category="contributions"
+        title="Add Contribution Type"
       />
     </>
   );

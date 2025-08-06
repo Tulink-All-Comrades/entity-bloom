@@ -9,7 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: BarChart3 },
@@ -19,6 +21,14 @@ const menuItems = [
 ];
 
 export function OrgSidebar() {
+  // Get current logged in user info - in real app this would come from auth context
+  const currentUser = {
+    firstName: "John",
+    lastName: "Mwangi", 
+    role: "Organization Official",
+    avatar: null
+  };
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -49,6 +59,25 @@ export function OrgSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      
+      <SidebarFooter>
+        <div className="flex items-center gap-3 p-4 border-t border-sidebar-border">
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={currentUser.avatar} />
+            <AvatarFallback className="bg-sidebar-accent text-sidebar-accent-foreground">
+              {currentUser.firstName[0]}{currentUser.lastName[0]}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0 flex-1">
+            <p className="text-sm font-medium text-sidebar-foreground truncate">
+              {currentUser.firstName} {currentUser.lastName}
+            </p>
+            <p className="text-xs text-sidebar-foreground/60 truncate">
+              {currentUser.role}
+            </p>
+          </div>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }

@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Plus } from "lucide-react";
 import { AccountDetailModal } from "./AccountDetailModal";
+import { AddDataModal } from "./AddDataModal";
 
 // Dummy accounts data
 const accounts = [
@@ -44,6 +45,7 @@ interface AccountsTabProps {
 export function AccountsTab({ groupId }: AccountsTabProps) {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleViewAccount = (account: any) => {
     setSelectedAccount(account);
@@ -60,8 +62,12 @@ export function AccountsTab({ groupId }: AccountsTabProps) {
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Group Accounts</CardTitle>
+          <Button onClick={() => setShowAddModal(true)} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Account
+          </Button>
         </CardHeader>
         <CardContent>
           <Table>
@@ -108,6 +114,13 @@ export function AccountsTab({ groupId }: AccountsTabProps) {
         account={selectedAccount}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      <AddDataModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        category="accounts"
+        title="Add Account"
       />
     </>
   );
