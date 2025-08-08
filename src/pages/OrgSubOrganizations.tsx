@@ -17,7 +17,7 @@ export default function OrgSubOrganizations() {
   const navigate = useNavigate();
 
   const handleViewSubOrganization = (id: string) => {
-    navigate(`/admin/sub-organizations/${id}`);
+    navigate(`/org/sub-organizations/${id}`);
   };
 
   return (
