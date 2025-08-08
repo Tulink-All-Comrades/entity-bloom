@@ -36,7 +36,7 @@ export function SubOrganizationsTab({ parentId, parentName }: SubOrganizationsTa
   );
 
   const handleViewSubOrganization = (id: string) => {
-    navigate(`admin/organizations/${id}`);
+    navigate(`/admin/organizations/${id}`);
   };
 
   return (
