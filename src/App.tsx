@@ -17,6 +17,10 @@ import OrgGroups from "./pages/OrgGroups";
 import GroupDetail from "./pages/GroupDetail";
 import OnboardingFields from "./pages/OnboardingFields";
 import NotFound from "./pages/NotFound";
+import { LoanProducts } from "./pages/LoanProducts";
+import { LoanApplications } from "./pages/LoanApplications";
+import { FeesReport } from "./pages/reports/FeesReport";
+import { LoanProductDetail } from "./pages/LoanProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +55,10 @@ const App = () => (
                 <Route path="groups" element={<OrgGroups />} />
                 <Route path="groups/:id" element={<GroupDetail />} />
                 <Route path="onboarding-fields" element={<OnboardingFields />} />
+                <Route path="loan-products" element={<LoanProducts />} />
+                <Route path="loan-products/:id" element={<LoanProductDetail />} />
+                <Route path="loan-applications" element={<LoanApplications />} />
+                <Route path="reports/fees" element={<FeesReport />} />
               </Routes>
             </OrgLayout>
           } />

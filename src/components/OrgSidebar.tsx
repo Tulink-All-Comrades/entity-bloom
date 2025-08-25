@@ -18,9 +18,10 @@ const menuItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: BarChart3 },
   { title: "Sub Organizations", url: "/org/sub-organizations", icon: Building2 },
   { title: "Groups", url: "/org/groups", icon: Users },
+  { title: "Onboarding Fields", url: "/org/onboarding-fields", icon: Settings },
   { title: "Loan Products", url: "/org/loan-products", icon: CreditCard },
   { title: "Loan Applications", url: "/org/loan-applications", icon: FileText },
-  { title: "Onboarding Fields", url: "/org/onboarding-fields", icon: Settings }
+  
 ];
 
 const reportItems = [
