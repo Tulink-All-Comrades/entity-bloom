@@ -1,4 +1,4 @@
-import { BarChart3, Building2, Users, Settings } from "lucide-react";
+import { BarChart3, Building2, Users, Settings, CreditCard, FileText, ChevronDown, ChevronRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
@@ -12,15 +12,26 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const menuItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: BarChart3 },
   { title: "Sub Organizations", url: "/org/sub-organizations", icon: Building2 },
   { title: "Groups", url: "/org/groups", icon: Users },
+  { title: "Loan Products", url: "/org/loan-products", icon: CreditCard },
+  { title: "Loan Applications", url: "/org/loan-applications", icon: FileText },
   { title: "Onboarding Fields", url: "/org/onboarding-fields", icon: Settings }
 ];
 
+const reportItems = [
+  { title: "Fees Report", url: "/org/reports/fees" },
+  { title: "Interests Report", url: "/org/reports/interests" },
+  { title: "Pending Loans", url: "/org/reports/pending-loans" }
+];
+
 export function OrgSidebar() {
+  const [reportsExpanded, setReportsExpanded] = useState(false);
+  
   // Get current logged in user info - in real app this would come from auth context
   const currentUser = {
     firstName: "Demo",
@@ -55,6 +66,45 @@ export function OrgSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              
+              {/* Reports Section */}
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  onClick={() => setReportsExpanded(!reportsExpanded)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md transition-colors text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  <span>Reports</span>
+                  {reportsExpanded ? (
+                    <ChevronDown className="h-4 w-4 ml-auto" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              {reportsExpanded && (
+                <>
+                  {reportItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <NavLink 
+                          to={item.url} 
+                          className={({ isActive }) =>
+                            `flex items-center gap-2 px-6 py-2 rounded-md transition-colors text-sm ${
+                              isActive 
+                                ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" 
+                                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            }`
+                          }
+                        >
+                          <span>{item.title}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -57,3 +57,57 @@ export interface OnboardingField {
   category: 'primary' | 'members' | 'contributions' | 'loans' | 'accounts';
   options?: FieldOption[];
 }
+
+export interface LoanProduct {
+  id: string;
+  name: string;
+  productType: 'group' | 'sacco' | 'individual';
+  interestType: 'fixed' | 'reducing';
+  interestRate: number;
+  interestChargeable: 'per month' | 'per week' | 'per day';
+  lockingSaving: boolean;
+  minimumSavingsAmount?: number;
+  organizationId: string;
+  parentId?: string;
+}
+
+export interface LoanProductFee {
+  id: string;
+  loanProductId: string;
+  feeType: 'insurance' | 'processing' | 'application';
+  isEnabled: boolean;
+  chargeableType?: 'fixed' | 'percentage';
+  amount?: number;
+  percentage?: number;
+}
+
+export interface LoanProductFine {
+  id: string;
+  loanProductId: string;
+  fineTypes: ('late_installments' | 'outstanding_balance')[];
+  chargeableType: 'fixed' | 'percentage';
+  amount?: number;
+  percentage?: number;
+  chargeableFrequency: 'per day' | 'per week' | 'per month';
+}
+
+export interface LoanProductDocument {
+  id: string;
+  loanProductId: string;
+  documentType: string;
+  allowedTypes: string[];
+}
+
+export interface LoanApplication {
+  id: string;
+  loanProductId: string;
+  loanProductName: string;
+  loanProductType: 'group' | 'sacco' | 'individual';
+  beneficiaryId: string;
+  beneficiaryName: string;
+  beneficiaryContact: string;
+  amount: number;
+  status: 'pending_approval' | 'approved' | 'declined' | 'disbursed';
+  organizationId: string;
+  createdAt: string;
+}
