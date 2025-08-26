@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Edit, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,10 +17,23 @@ export default function OrganizationDetail() {
   const navigate = useNavigate();
   const [showEditDialog, setShowEditDialog] = useState(false);
   const allOrganizations = useAppStore((state) => state.organizations);
-  const organization = useMemo(() => 
-    allOrganizations.find(org => org.id === id),
-    [allOrganizations, id]
-  );
+  // Get organization based on ID or current org (for /org/organization-detail route)
+  const organization = useMemo(() => {
+    if (id) {
+      return allOrganizations.find(org => org.id === id);
+    }
+    // For /org/organization-detail route, get the current organization (assuming ID 3 for demo)
+    return allOrganizations.find(org => org.id === '3');
+  }, [allOrganizations, id]);
+
+  // Apply organization theming
+  useEffect(() => {
+    if (organization && organization.primaryColor) {
+      document.documentElement.style.setProperty('--primary', organization.primaryColor.replace('hsl(', '').replace(')', ''));
+      document.documentElement.style.setProperty('--secondary', organization.secondaryColor?.replace('hsl(', '').replace(')', '') || '');
+      document.documentElement.style.setProperty('--accent', organization.tertiaryColor?.replace('hsl(', '').replace(')', '') || '');
+    }
+  }, [organization]);
 
   if (!organization) {
     return (
@@ -89,6 +102,30 @@ export default function OrganizationDetail() {
               <p className="text-sm text-muted-foreground">Phone</p>
               <p className="font-medium">{organization.phone}</p>
             </div>
+            {organization.primaryColor && (
+              <div>
+                <p className="text-sm text-muted-foreground">Primary Color</p>
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-6 h-6 rounded border" 
+                    style={{ backgroundColor: organization.primaryColor }}
+                  />
+                  <span className="font-medium">{organization.primaryColor}</span>
+                </div>
+              </div>
+            )}
+            {organization.secondaryColor && (
+              <div>
+                <p className="text-sm text-muted-foreground">Secondary Color</p>
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-6 h-6 rounded border" 
+                    style={{ backgroundColor: organization.secondaryColor }}
+                  />
+                  <span className="font-medium">{organization.secondaryColor}</span>
+                </div>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

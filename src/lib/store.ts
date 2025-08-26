@@ -32,10 +32,10 @@ const initialRoles: Role[] = [
 ];
 
 const initialOrganizations: Organization[] = [
-  { id: '1', name: 'Central Bank of Kenya', nature: 'Bank', email: 'info@cbk.go.ke', phone: '+254700123456' },
-  { id: '2', name: 'Kenya Red Cross', nature: 'NGO', email: 'info@redcross.or.ke', phone: '+254700234567' },
-  { id: '3', name: 'Equity Bank', nature: 'Bank', email: 'support@equitybank.co.ke', phone: '+254700345678' },
-  { id: '4', name: 'Equity Microfinance', nature: 'Microfinance', email: 'info@equity-micro.co.ke', phone: '+254700456789', parentId: '3' },
+  { id: '1', name: 'Central Bank of Kenya', nature: 'Bank', email: 'info@cbk.go.ke', phone: '+254700123456', primaryColor: 'hsl(221, 83%, 53%)', secondaryColor: 'hsl(221, 83%, 73%)', tertiaryColor: 'hsl(221, 83%, 93%)' },
+  { id: '2', name: 'Kenya Red Cross', nature: 'NGO', email: 'info@redcross.or.ke', phone: '+254700234567', primaryColor: 'hsl(0, 84%, 60%)', secondaryColor: 'hsl(0, 84%, 80%)', tertiaryColor: 'hsl(0, 84%, 95%)' },
+  { id: '3', name: 'Cooperative Organization', nature: 'Cooperative', email: 'support@cooperative.co.ke', phone: '+254700345678', primaryColor: 'hsl(142, 76%, 36%)', secondaryColor: 'hsl(142, 76%, 56%)', tertiaryColor: 'hsl(142, 76%, 86%)' },
+  { id: '4', name: 'Equity Microfinance', nature: 'Microfinance', email: 'info@equity-micro.co.ke', phone: '+254700456789', parentId: '3', primaryColor: 'hsl(262, 83%, 58%)', secondaryColor: 'hsl(262, 83%, 78%)', tertiaryColor: 'hsl(262, 83%, 95%)' },
 ];
 
 const initialOfficials: Official[] = [

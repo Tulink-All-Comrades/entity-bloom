@@ -1,11 +1,14 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { OrgSidebar } from "./OrgSidebar";
+import { useNavigate } from "react-router-dom";
 
 interface OrgLayoutProps {
   children: React.ReactNode;
 }
 
 export function OrgLayout({ children }: OrgLayoutProps) {
+  const navigate = useNavigate();
+  
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -17,7 +20,10 @@ export function OrgLayout({ children }: OrgLayoutProps) {
               <h1 className="ml-4 text-lg font-semibold">Organization Dashboard</h1>
             </div>
             <div className="flex items-center gap-4">
-              <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center">
+              <div 
+                className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors"
+                onClick={() => navigate(`/org/organization-detail`)}
+              >
                 <span className="text-primary font-bold text-sm">ORG</span>
               </div>
             </div>

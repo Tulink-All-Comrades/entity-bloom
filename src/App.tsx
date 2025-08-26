@@ -54,6 +54,7 @@ const App = () => (
             <OrgLayout>
               <Routes>
                 <Route path="dashboard" element={<OrgDashboard />} />
+                <Route path="organization-detail" element={<OrganizationDetail />} />
                 <Route path="sub-organizations" element={<OrgSubOrganizations />} />
                 <Route path="sub-organizations/:id" element={<OrganizationDetail />} />
                 <Route path="groups" element={<OrgGroups />} />
