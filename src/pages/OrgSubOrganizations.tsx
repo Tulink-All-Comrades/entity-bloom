@@ -29,10 +29,18 @@ export default function OrgSubOrganizations() {
             Manage your sub-organizations and branches
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Sub Organization
-        </Button>
+        <div className="flex gap-2">
+          <Button>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Sub Organization
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={() => navigate('/org/sub-organizations/import')}
+          >
+            Import Sub Organizations
+          </Button>
+        </div>
       </div>
 
       <Card>

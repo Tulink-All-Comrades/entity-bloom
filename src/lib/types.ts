@@ -6,6 +6,9 @@ export interface Organization {
   phone: string;
   parentId?: string;
   logoUrl?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  tertiaryColor?: string;
 }
 
 export interface Official {

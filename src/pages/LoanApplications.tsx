@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MoreHorizontal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const applications = [
   {
@@ -31,6 +32,22 @@ const applications = [
 export function LoanApplications() {
   const [productFilter, setProductFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [filteredData, setFilteredData] = useState(applications);
+  const navigate = useNavigate();
+
+  const applyFilter = () => {
+    let filtered = applications;
+    
+    if (productFilter && productFilter !== "all") {
+      filtered = filtered.filter(app => app.loanProductType === productFilter);
+    }
+    
+    if (statusFilter && statusFilter !== "all") {
+      filtered = filtered.filter(app => app.status === statusFilter);
+    }
+    
+    setFilteredData(filtered);
+  };
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "secondary" | "default" | "destructive" | "outline"> = {
@@ -75,6 +92,7 @@ export function LoanApplications() {
                 <SelectItem value="disbursed">Disbursed</SelectItem>
               </SelectContent>
             </Select>
+            <Button onClick={applyFilter}>Apply Filter</Button>
           </div>
         </CardHeader>
         <CardContent>
@@ -90,7 +108,7 @@ export function LoanApplications() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {applications.map((app) => (
+              {filteredData.map((app) => (
                 <TableRow key={app.id}>
                   <TableCell className="font-medium">{app.loanProductName}</TableCell>
                   <TableCell><Badge variant="outline">{app.loanProductType}</Badge></TableCell>
@@ -110,7 +128,9 @@ export function LoanApplications() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Application</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate(`/org/loan-applications/${app.id}`)}>
+                          View Application
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

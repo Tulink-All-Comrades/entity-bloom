@@ -22,12 +22,16 @@ import {
 } from "@/components/ui/select";
 import { useAppStore } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
+import { ColorPicker } from "@/components/ui/color-picker";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   nature: z.string().min(1, "Nature is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(1, "Phone is required"),
+  primaryColor: z.string().optional(),
+  secondaryColor: z.string().optional(),
+  tertiaryColor: z.string().optional(),
 });
 
 interface AddOrganizationFormProps {
@@ -48,6 +52,9 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
       nature: "",
       email: "",
       phone: "",
+      primaryColor: "#3b82f6",
+      secondaryColor: "#10b981", 
+      tertiaryColor: "#f59e0b",
     },
   });
 
@@ -66,6 +73,9 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
       phone: values.phone,
       parentId,
       logoUrl: logo ? URL.createObjectURL(logo) : undefined,
+      primaryColor: values.primaryColor,
+      secondaryColor: values.secondaryColor,
+      tertiaryColor: values.tertiaryColor,
     });
     
     toast({
@@ -175,6 +185,62 @@ export function AddOrganizationForm({ onSuccess, parentId, parentName }: AddOrga
               {logo ? logo.name : "Upload Logo"}
             </Button>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <FormField
+            control={form.control}
+            name="primaryColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Primary Color</FormLabel>
+                <FormControl>
+                  <ColorPicker
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Select primary color"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="secondaryColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Secondary Color</FormLabel>
+                <FormControl>
+                  <ColorPicker
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Select secondary color"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="tertiaryColor"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tertiary Color</FormLabel>
+                <FormControl>
+                  <ColorPicker
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    placeholder="Select tertiary color"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="flex justify-end space-x-2">

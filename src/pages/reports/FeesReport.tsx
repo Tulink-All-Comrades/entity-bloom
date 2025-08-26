@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 const feesData = [
   { loanProduct: "Group Development Loan", productType: "group", amount: 25000 },
@@ -10,6 +11,16 @@ const feesData = [
 
 export function FeesReport() {
   const [feeFilter, setFeeFilter] = useState("");
+  const [filteredData, setFilteredData] = useState(feesData);
+
+  const applyFilter = () => {
+    if (!feeFilter) {
+      setFilteredData(feesData);
+    } else {
+      // In a real app, you'd filter based on the fee type
+      setFilteredData(feesData);
+    }
+  };
 
   return (
     <div className="p-6">
@@ -22,16 +33,19 @@ export function FeesReport() {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Fee Collections</CardTitle>
-            <Select value={feeFilter} onValueChange={setFeeFilter}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Filter by fee type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="insurance">Insurance Fees</SelectItem>
-                <SelectItem value="processing">Processing Fees</SelectItem>
-                <SelectItem value="application">Application Fees</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex gap-2">
+              <Select value={feeFilter} onValueChange={setFeeFilter}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Filter by fee type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="insurance">Insurance Fees</SelectItem>
+                  <SelectItem value="processing">Processing Fees</SelectItem>
+                  <SelectItem value="application">Application Fees</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button onClick={applyFilter}>Apply Filter</Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -44,7 +58,7 @@ export function FeesReport() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {feesData.map((fee, index) => (
+              {filteredData.map((fee, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{fee.loanProduct}</TableCell>
                   <TableCell className="capitalize">{fee.productType}</TableCell>

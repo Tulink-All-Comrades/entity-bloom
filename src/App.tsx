@@ -20,7 +20,11 @@ import NotFound from "./pages/NotFound";
 import { LoanProducts } from "./pages/LoanProducts";
 import { LoanApplications } from "./pages/LoanApplications";
 import { FeesReport } from "./pages/reports/FeesReport";
+import { InterestsReport } from "./pages/reports/InterestsReport";
+import { LoansReport } from "./pages/reports/LoansReport";
 import { LoanProductDetail } from "./pages/LoanProductDetail";
+import { LoanApplicationDetail } from "./pages/LoanApplicationDetail";
+import ImportSubOrganizations from "./pages/ImportSubOrganizations";
 
 const queryClient = new QueryClient();
 
@@ -55,10 +59,14 @@ const App = () => (
                 <Route path="groups" element={<OrgGroups />} />
                 <Route path="groups/:id" element={<GroupDetail />} />
                 <Route path="onboarding-fields" element={<OnboardingFields />} />
+                <Route path="sub-organizations/import" element={<ImportSubOrganizations />} />
                 <Route path="loan-products" element={<LoanProducts />} />
                 <Route path="loan-products/:id" element={<LoanProductDetail />} />
                 <Route path="loan-applications" element={<LoanApplications />} />
+                <Route path="loan-applications/:id" element={<LoanApplicationDetail />} />
                 <Route path="reports/fees" element={<FeesReport />} />
+                <Route path="reports/interests" element={<InterestsReport />} />
+                <Route path="reports/loans" element={<LoansReport />} />
               </Routes>
             </OrgLayout>
           } />
