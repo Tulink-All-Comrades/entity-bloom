@@ -24,7 +24,7 @@ jobs:
           server: 45.56.126.127
           port: 22
           local_path: './dist/*'
-          remote_path: '/octo/'
+          remote_path: '/home/octo/'
           sftp_only: true
           password: ${{ secrets.FTP_PASSWORD }}
           ssh_private_key: "" 
