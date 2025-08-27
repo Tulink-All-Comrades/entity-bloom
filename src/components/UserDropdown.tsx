@@ -1,5 +1,6 @@
 import { LogOut, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,14 +20,18 @@ interface UserDropdownProps {
 }
 
 export function UserDropdown({ user }: UserDropdownProps) {
+  const navigate = useNavigate();
   const handleCheckin = () => {
     // Handle checkin logic
     console.log("Checkin clicked");
+    navigate('/org/select')
   };
 
   const handleLogout = () => {
     // Handle logout logic
     console.log("Logout clicked");
+    localStorage.removeItem('currentUser')
+    navigate('/login')
   };
 
   return (
