@@ -1,5 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { OrgSidebar } from "./OrgSidebar";
+import { UserDropdown } from "@/components/UserDropdown";
 import { useNavigate } from "react-router-dom";
 
 interface OrgLayoutProps {
@@ -8,6 +9,14 @@ interface OrgLayoutProps {
 
 export function OrgLayout({ children }: OrgLayoutProps) {
   const navigate = useNavigate();
+  
+  // Get current logged in user info - in real app this would come from auth context
+  const currentUser = {
+    firstName: "Demo",
+    lastName: "Account", 
+    role: "Organization Official",
+    avatar: null
+  };
   
   return (
     <SidebarProvider>
@@ -26,6 +35,7 @@ export function OrgLayout({ children }: OrgLayoutProps) {
               >
                 <span className="text-primary font-bold text-sm">ORG</span>
               </div>
+              <UserDropdown user={currentUser} />
             </div>
           </header>
           <main className="flex-1 p-6">
