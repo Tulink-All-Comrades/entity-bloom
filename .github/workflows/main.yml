@@ -1,0 +1,30 @@
+name: Deploy UI
+on: 
+  push:
+    branches:
+      - main
+jobs: 
+  web-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: npm install --legacy-peer-deps
+    - name: Build
+      run: npm run build
+
+      
+    - name: Sync files
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      with:
+          username: ${{ secrets.FTP_USERNAME }}
+          server: 45.56.126.127
+          port: 22
+          local_path: './dist/*'
+          remote_path: '/octo/'
+          sftp_only: true
+          password: ${{ secrets.FTP_PASSWORD }}
+          ssh_private_key: "" 
